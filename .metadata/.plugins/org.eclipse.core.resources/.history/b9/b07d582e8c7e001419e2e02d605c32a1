@@ -1,0 +1,55 @@
+package com.rhythm.testthread;
+
+import java.util.Calendar;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.os.Handler;
+import android.widget.ProgressBar;
+
+public class MainActivity extends Activity {
+	private Handler mHandler;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        final ProgressBar mPg = (ProgressBar) findViewById(R.id.progressBar1);
+        new Thread(new Runnable(){
+        	
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				Calendar begin = Calendar.getInstance();
+	        	do {
+	        		Calendar now = Calendar.getInstance();
+	        		final int iDiff = 60 * (now.get(Calendar.MINUTE) -
+	        				begin.get(Calendar.MINUTE)) + 
+	        				now.get(Calendar.SECOND) -
+	        				begin.get(Calendar.SECOND);
+	        		if (iDiff * 2 > 100) {
+	        			mHandler.post(new Runnable() {
+
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								mPg.setProgress(100);
+							}
+	        				
+	        			});
+	        			break;
+	        		}
+	        		mHandler.post(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							mPg.setProgress(iDiff * 2);
+						}
+	        			
+	        		});
+	        		
+	        	}while(true);
+			}
+        });
+    }
+}

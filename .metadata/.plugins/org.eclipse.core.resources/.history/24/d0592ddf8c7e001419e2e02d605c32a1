@@ -1,0 +1,5 @@
+package com.rhythm.testthread;
+
+public class DoWork extends Thread {
+
+}
